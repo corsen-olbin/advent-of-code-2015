@@ -38,19 +38,18 @@ defmodule AdventOfCodeEx.CLI do
       switches: [help: :boolean, example: :boolean],
       aliases: [h: :help, e: :example]
     )
-    |> elem(1)
     |> args_to_internal_representation()
   end
 
-  def args_to_internal_representation([day, part, use_example]) do
+  def args_to_internal_representation({ [example: use_example], [day, part], _invalid }) do
     {String.to_integer(day), String.to_integer(part), use_example}
   end
 
-  def args_to_internal_representation([day, part]) do
+  def args_to_internal_representation({ _parsed, [day, part], _invalid }) do
     {String.to_integer(day), String.to_integer(part), false}
   end
 
-  def args_to_internal_representation([day]) do
+  def args_to_internal_representation({ _parsed, [day], _invalid }) do
     {String.to_integer(day), @default_part, false}
   end
 
