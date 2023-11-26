@@ -8,8 +8,9 @@ defmodule AdventOfCodeEx.Boundary.AdventOfCodeManager do
   end
 
   def run_code({day, _} = day_part, use_example) do
-    import_file(day, use_example)
-    |> run_day_part(day_part)
+    with file <- import_file(day, use_example) do
+      :timer.tc(fn -> run_day_part(file, day_part) end)
+    end
   end
 
   def run_day_part(txt_input, day_part) do
@@ -68,12 +69,13 @@ defmodule AdventOfCodeEx.Boundary.AdventOfCodeManager do
     end
   end
 
-  def handle_result(:unimplemented, {day, part}) do
+  def handle_result({_time, :unimplemented}, {day, part}) do
     IO.puts("D#{day}p#{part} is unimplemented")
   end
 
-  def handle_result(answer, {day, part}) do
+  def handle_result({time, answer}, {day, part}) do
     IO.puts("D#{day}p#{part} answer: #{inspect(answer)}")
+    IO.puts("Solved in #{time/1000}ms")
   end
 
   defp import_file(day, use_example) do
