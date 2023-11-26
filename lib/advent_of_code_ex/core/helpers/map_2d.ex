@@ -41,6 +41,12 @@ defmodule AdventOfCodeEx.Core.Helpers.Map2D do
     end)
   end
 
+  def sum(map) do
+    Enum.reduce(map, 0, fn {_x, v}, acc ->
+      Enum.reduce(v, acc, fn {_y, v2}, acc2 -> acc2 + v2 end)
+    end)
+  end
+
   def find_index(map, func?) do
     Enum.find_value(map, 0, fn {x, v} ->
       Enum.find_value(v, fn {y, v2} -> if func?.(v2), do: {x, y}, else: false end)
