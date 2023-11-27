@@ -5,7 +5,6 @@ defmodule AdventOfCodeEx.Core.Days.Day7 do
     input
     |> String.split("\r\n", trim: true)
     |> build_instr_tree()
-    |> IO.inspect()
     |> solve("a")
     |> Map.get("a")
   end
@@ -22,7 +21,7 @@ defmodule AdventOfCodeEx.Core.Days.Day7 do
   def solve_rec(instr_tree, solved_map, [head | rest]) when is_bitstring(head) do
     with {:ok, _solved} <- Map.fetch(solved_map, head) do
 
-      solve_rec(instr_tree, IO.inspect(solved_map, label: "solved"), IO.inspect(rest, label: "queue"))
+      solve_rec(instr_tree, solved_map, rest)
     else
       :error -> solve_rec(instr_tree, Map.put(solved_map, head, String.to_integer(head)), rest)
     end
